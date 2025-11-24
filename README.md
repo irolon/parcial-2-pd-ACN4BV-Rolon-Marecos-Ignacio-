@@ -84,7 +84,7 @@ Una vez validado el formulario:
 1. Clonar el repositorio:
 
 ```
-git clone https://github.com/irolon/Proyecto-Coder
+git clone https://github.com/irolon/parcial-2-pd-ACN4BV-Rolon-Marecos-Ignacio-/edit/master/README.md
 ```
 
 2. Entrar al proyecto:
