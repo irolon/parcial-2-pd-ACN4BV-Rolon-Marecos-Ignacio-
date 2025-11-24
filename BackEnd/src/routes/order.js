@@ -1,26 +1,12 @@
 const express = require('express');
-const { crearOrderFirebase } = require('../services/order_service');
+const { createOrder } = require('../controller/order_controller');
 const { validarInfoOrder } = require('../middlewares/validarorden');
 
 const router = express.Router();
 
 
 
-router.post('/api/orders', validarInfoOrder, async (req, res) => {
-  try {
-    const orderData = req.body;
-
-    const orderId = await crearOrderFirebase(orderData);
+router.post('/api/orders', validarInfoOrder, createOrder);
     
-    res.status(201).json({ 
-      success: true, 
-      orderId: orderId,
-      message: 'Orden creada exitosamente' 
-    });
-  } catch (error) {
-    console.error('Error creando orden:', error);
-    res.status(500).json({ error: 'Error interno del servidor: ' + error.message });
-  }
-});
 
 module.exports = router;
