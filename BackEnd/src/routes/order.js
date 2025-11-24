@@ -1,21 +1,15 @@
 const express = require('express');
 const { crearOrderFirebase } = require('../services/order_service');
+const { validarInfoOrder } = require('../middlewares/validarorden');
 
 const router = express.Router();
 
 
-router.post('/api/orders', async (req, res) => {
+
+router.post('/api/orders', validarInfoOrder, async (req, res) => {
   try {
     const orderData = req.body;
-    
-    console.log('Datos de orden recibidos:', orderData);
-    
-    // Validar datos requeridos
-    if (!orderData.comprador || !orderData.items || !orderData.total) {
-      return res.status(400).json({ error: 'Faltan datos requeridos (comprador, items, total)' });
-    }
 
-    // Crear orden en Firebase
     const orderId = await crearOrderFirebase(orderData);
     
     res.status(201).json({ 
