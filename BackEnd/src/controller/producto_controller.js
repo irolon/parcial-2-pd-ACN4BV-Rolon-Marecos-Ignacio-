@@ -6,7 +6,7 @@ const getAllProductos = async (req, res) => {
         const productos = await getProductos();
         res.json(productos);
     } catch (error) {
-        console.error('Error en /api/productos:', error);
+        console.error('Error en /productos:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 };
