@@ -5,7 +5,6 @@ import BtnVerMas from "../Btn/BtnVerMas";
 import LoaderComponent from "../Cards/LoaderComponent";
 import { getProductosFromBackend } from "../../service/api";
 
-
 const HomeListContainer = () => {
     const [prod, setProductos] = useState([]);
     const [mostrarMasPrimera, setMostrarMasPrimera] = useState(false);

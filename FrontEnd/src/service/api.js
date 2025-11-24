@@ -1,10 +1,8 @@
-const API_URL = '/api';
 
 export async function apiGet(path) {
-    const response = await fetch(`${API_URL}${path}`);
+    const response = await fetch(path);
 
     if (!response.ok) {
-        // Podés tirar error si algo falla
         const errorText = await response.text();
         throw new Error(`Error GET ${path}: ${response.status} - ${errorText}`);
     }
@@ -12,7 +10,7 @@ export async function apiGet(path) {
 }
 
 export async function apiPost(path, data) {
-    const response = await fetch(`${API_URL}${path}`, {
+    const response = await fetch(`${path}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -28,7 +26,7 @@ export async function apiPost(path, data) {
 }
 
 export async function apiPut(path, data) {
-    const response = await fetch(`${API_URL}${path}`, {
+    const response = await fetch(`${path}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -44,7 +42,7 @@ export async function apiPut(path, data) {
 }
 
 export async function apiDelete(path) {
-    const response = await fetch(`${API_URL}${path}`, {
+    const response = await fetch(`${path}`, {
         method: 'DELETE'
     });
     if (!response.ok) {
@@ -54,7 +52,6 @@ export async function apiDelete(path) {
     return await response.json();
 }
 
-// Función para obtener productos desde el backend
 export async function getProductosFromBackend() {
     try {
         return await apiGet('/productos');
@@ -64,7 +61,6 @@ export async function getProductosFromBackend() {
     }
 }
 
-// Función para obtener un producto especifico por ID
 export async function getProductoById(id) {
     try {
         return await apiGet(`/productos/${id}`);
@@ -74,7 +70,6 @@ export async function getProductoById(id) {
     }
 }
 
-// Función para crear una orden
 export async function createOrder(orderData) {
     try {
         return await apiPost('/orders', orderData);
