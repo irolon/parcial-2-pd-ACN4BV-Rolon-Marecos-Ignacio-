@@ -7,15 +7,12 @@ const CardItem = ({ producto }) => {
     const imgUrl = new URL(`../../assets/img/Img-reloj-${producto.id}.jpg`, import.meta.url).href;
 
     const { cart, additem } = useContext(CartContext);
-    console.log(cart);
     const [purchase, setPurchase] = useState(false);
 
     const onAdd = (cantidad) => {
-        console.log('Cantidad agregada:', cantidad);
         additem(producto, cantidad);
         setPurchase(true);
     };
-    console.log("iamgen + " + producto.img);
 
   return (
     <div className="d-flex flex-column align-items-center mt-5 ">

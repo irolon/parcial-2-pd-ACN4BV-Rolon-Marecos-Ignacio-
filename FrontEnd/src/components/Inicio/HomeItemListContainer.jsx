@@ -3,8 +3,8 @@ import ItemList from "../Cards/ItemList";
 import CardImgCenter from "../Inicio/CardImgCenter";
 import BtnVerMas from "../Btn/BtnVerMas";
 import LoaderComponent from "../Cards/LoaderComponent";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { db } from "../../service/firebase";
+import { getProductosFromBackend } from "../../service/api";
+
 
 const HomeListContainer = () => {
     const [prod, setProductos] = useState([]);
@@ -13,13 +13,10 @@ const HomeListContainer = () => {
     const [loading, setLoading] = useState(true);
 
 
-    //FIREBASE
     useEffect(() => {
         setLoading(true);
-        const prodColletction = collection(db, "Producto");
-        getDocs(prodColletction)
-        .then((res)=>{
-            const productos = res.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        getProductosFromBackend()
+        .then((productos) => {
             setProductos(productos);
         })
         .catch((err) => console.log(err))

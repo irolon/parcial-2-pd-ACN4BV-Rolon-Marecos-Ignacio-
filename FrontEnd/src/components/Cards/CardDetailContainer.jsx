@@ -1,10 +1,8 @@
-import { getProductos } from "../../assets/mock/AsyncService";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams} from "react-router-dom";
 import CardItem from "./CardItem";
 import LoaderComponent from "./LoaderComponent";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../service/firebase";
+import { getProductoById } from "../../service/api";
 
 
 const CardDetailContainer = () => {
@@ -13,28 +11,13 @@ const CardDetailContainer = () => {
   const [loading, setLoading] = useState(false);
 
 
-  // useEffect(() => {
-  
-  //   const fetchProducto = async () => {
-  //     try {
-  //       const data = await getProductos();
-  //       const found = data.find(item => item.id == id); 
-  //       setProducto(found);
-  //     } catch (error) {
-  //       console.error("Error cargando producto:", error);
-  //     }
-  //   }  
-  //   fetchProducto();
-  // }, [id]);
 
   useEffect(() => {
     setLoading(true);
-    const docRef = doc(db, "Producto", id);
-    getDoc(docRef)
-    .then((res) => {
-      if(res.data()){
-        console.log("Producto encontrado:", res.data());
-        setProducto({ id: res.id, ...res.data() });
+    getProductoById(id)
+    .then((producto) => {
+      if(producto){
+        setProducto(producto);
       }else{
         console.log("No se encontró el producto con ID:", id);
       }

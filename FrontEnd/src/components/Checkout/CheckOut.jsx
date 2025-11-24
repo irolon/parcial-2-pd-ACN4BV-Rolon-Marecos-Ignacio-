@@ -1,9 +1,7 @@
-import React, { use, useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import CardForm from '../Cards/CardForm'
-import { collection, serverTimestamp } from 'firebase/firestore';
 import { CartContext } from '../../context/CartContext';
-import { addDoc } from 'firebase/firestore';
-import { db } from '../../service/firebase';
+import { createOrder } from '../../service/api';
 import { Link } from 'react-router-dom';
 import EmptyCart from '../Cards/EmptyCart';
 
@@ -23,14 +21,10 @@ const CheckOut = () => {
     })
   }
   
-  const finalizarCompra = (e) => {
+  const finalizarCompra =  async (e) => {
     e.preventDefault();
-    console.log('Datos del buyer:', buyer);
 
-    
     if(!buyer.nombre || !buyer.apellido || !buyer.direccion || !buyer.email || !buyer.repetirEmail) {
-
-
       setError('Por favor complete todos los campos');
       return;
     }
@@ -43,17 +37,15 @@ const CheckOut = () => {
         comprador: buyer,
         items: cart,
         total: total(),
-        fecha: serverTimestamp(),
       };
-      const ventas = collection(db, "Orders");
-        addDoc(ventas, order)
-        .then((res) => {
-          setOrderId(res.id);
-          clearCart();
-        })
-        .catch((err) => console.log(err));
+
+      const response = await createOrder(order);
+
+      if (response.success) {
+        setOrderId(response.orderId);
+        clearCart();
+      }
     }
-    console.log(buyer);
     
   }
 
